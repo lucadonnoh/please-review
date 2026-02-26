@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Please Review My PR</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #111;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      font-family: 'Impact', 'Arial Black', sans-serif;
+      overflow: hidden;
+    }
+
+    .meme-container {
+      position: relative;
+      display: inline-block;
+      max-width: 90vw;
+      max-height: 90vh;
+    }
+
+    .meme-container img {
+      display: block;
+      max-width: 90vw;
+      max-height: 90vh;
+      border-radius: 4px;
+    }
+
+    .meme-text {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      text-align: center;
+      font-size: clamp(2rem, 6vw, 5rem);
+      font-family: 'Impact', 'Arial Black', sans-serif;
+      color: white;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      -webkit-text-stroke: 3px black;
+      text-shadow:
+        4px 4px 0 #000,
+        -4px -4px 0 #000,
+        4px -4px 0 #000,
+        -4px 4px 0 #000,
+        0 4px 0 #000,
+        0 -4px 0 #000,
+        4px 0 0 #000,
+        -4px 0 0 #000;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .top-text {
+      top: 4%;
+    }
+
+    .bottom-text {
+      bottom: 4%;
+    }
+
+    .hint {
+      position: fixed;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #555;
+      font-family: monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0;
+      -webkit-text-stroke: 0;
+      text-shadow: none;
+    }
+
+    .loading {
+      color: #444;
+      font-family: monospace;
+      font-size: 1.2rem;
+      animation: pulse 1s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="loading" id="loading">fetching cat...</div>
+  <div class="meme-container" id="meme" style="display:none;">
+    <img id="cat-img" src="" alt="cat meme">
+    <div class="meme-text top-text">Please review</div>
+    <div class="meme-text bottom-text">My PR</div>
+  </div>
+  <div class="hint">refresh for a new cat</div>
+
+  <script>
+    const img = document.getElementById('cat-img');
+    const meme = document.getElementById('meme');
+    const loading = document.getElementById('loading');
+
+    // Use cataas.com for random cat images with a cache-busting param
+    const timestamp = Date.now();
+    img.src = `https://cataas.com/cat?t=${timestamp}`;
+
+    img.onload = () => {
+      loading.style.display = 'none';
+      meme.style.display = 'inline-block';
+    };
+
+    img.onerror = () => {
+      // Fallback to a different API if cataas is down
+      img.src = `https://placekitten.com/${600 + Math.floor(Math.random() * 200)}/${400 + Math.floor(Math.random() * 200)}`;
+    };
+  </script>
+</body>
+</html>
