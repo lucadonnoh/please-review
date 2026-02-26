@@ -101,20 +101,9 @@
       const w = img.clientWidth;
       const fontSize = w * 0.1;
       const stroke = Math.max(1, fontSize * 0.06);
-      const shadow = Math.max(2, fontSize * 0.08);
       document.querySelectorAll('.meme-text').forEach(el => {
         el.style.fontSize = fontSize + 'px';
         el.style.webkitTextStroke = stroke + 'px black';
-        el.style.textShadow = [
-          `${shadow}px ${shadow}px 0 #000`,
-          `${-shadow}px ${-shadow}px 0 #000`,
-          `${shadow}px ${-shadow}px 0 #000`,
-          `${-shadow}px ${shadow}px 0 #000`,
-          `0 ${shadow}px 0 #000`,
-          `0 ${-shadow}px 0 #000`,
-          `${shadow}px 0 0 #000`,
-          `${-shadow}px 0 0 #000`,
-        ].join(', ');
       });
     }
 
