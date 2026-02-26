@@ -37,21 +37,10 @@
       transform: translateX(-50%);
       width: 90%;
       text-align: center;
-      font-size: clamp(2rem, 6vw, 5rem);
       font-family: 'Impact', 'Arial Black', sans-serif;
       color: white;
       text-transform: uppercase;
       letter-spacing: 2px;
-      -webkit-text-stroke: 3px black;
-      text-shadow:
-        4px 4px 0 #000,
-        -4px -4px 0 #000,
-        4px -4px 0 #000,
-        -4px 4px 0 #000,
-        0 4px 0 #000,
-        0 -4px 0 #000,
-        4px 0 0 #000,
-        -4px 0 0 #000;
       user-select: none;
       pointer-events: none;
     }
@@ -108,10 +97,34 @@
     const timestamp = Date.now();
     img.src = `https://cataas.com/cat?t=${timestamp}`;
 
+    function scaleText() {
+      const w = img.clientWidth;
+      const fontSize = w * 0.1;
+      const stroke = Math.max(1, fontSize * 0.06);
+      const shadow = Math.max(2, fontSize * 0.08);
+      document.querySelectorAll('.meme-text').forEach(el => {
+        el.style.fontSize = fontSize + 'px';
+        el.style.webkitTextStroke = stroke + 'px black';
+        el.style.textShadow = [
+          `${shadow}px ${shadow}px 0 #000`,
+          `${-shadow}px ${-shadow}px 0 #000`,
+          `${shadow}px ${-shadow}px 0 #000`,
+          `${-shadow}px ${shadow}px 0 #000`,
+          `0 ${shadow}px 0 #000`,
+          `0 ${-shadow}px 0 #000`,
+          `${shadow}px 0 0 #000`,
+          `${-shadow}px 0 0 #000`,
+        ].join(', ');
+      });
+    }
+
     img.onload = () => {
       loading.style.display = 'none';
       meme.style.display = 'inline-block';
+      scaleText();
     };
+
+    window.addEventListener('resize', scaleText);
 
     img.onerror = () => {
       // Fallback to a different API if cataas is down
